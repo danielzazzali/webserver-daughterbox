@@ -41,6 +41,11 @@ def test_api():
         ethernet_ip_and_mask = client.get('/ethernet_ip_and_mask')
         print(ethernet_ip_and_mask.get_json())
 
+        ethernet_ip_and_mask = client.post('/set_ethernet_ip_and_mask', json={'ip': '172.16.23.24', 'mask': '24'})
+        print(ethernet_ip_and_mask.get_json())
+
+        ethernet_ip_and_mask = client.post('/set_ethernet_ip_and_mask', json={'ip': '172.16.23.23', 'mask': '24'})
+        print(ethernet_ip_and_mask.get_json())
 
         #############################################################################
         ###################### Test the wi-fi API  ##################################
@@ -49,6 +54,14 @@ def test_api():
         wifi_ip_and_mask = client.get('/wifi_ip_and_mask')
         print(wifi_ip_and_mask.get_json())
 
+        remembered_wifi_connections = client.get('/remembered_wifi_connections')
+        print(remembered_wifi_connections.get_json())
+
+        scan_wifi_networks = client.get('/scan_wifi_networks')
+        print(scan_wifi_networks.get_json())
+
+        active_wifi_network = client.get('/active_wifi_network')
+        print(active_wifi_network.get_json())
 
 
 if __name__ == '__main__':
