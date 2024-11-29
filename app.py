@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 
 from config.config import load_env, get_env_variable
 from config.constants import PORT
