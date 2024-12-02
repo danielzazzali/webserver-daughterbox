@@ -85,7 +85,7 @@ def get_active_wifi_connection() -> dict:
     if not lines:
         return {}
 
-    parts = lines[0].split()
+    parts = lines[0].split(':')
     if len(parts) >= 3:
         ssid = parts[0]
         signal = parts[1]

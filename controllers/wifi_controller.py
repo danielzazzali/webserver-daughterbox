@@ -1,7 +1,5 @@
 from flask import Blueprint, jsonify, request
 
-from config.config import get_env_variable
-from config.constants import WIRELESS_CONNECTION
 from models.network_model import get_ip_and_mask
 from models.wifi_model import remembered_wifi_connections, scan_wifi_networks, get_active_wifi_connection, \
     connect_to_new_ap, disconnect_from_wifi_connection, connect_to_known_wifi_connection, delete_known_wifi_connection, \
@@ -13,8 +11,7 @@ wifi_bp = Blueprint('wifi', __name__)
 @wifi_bp.route('/wifi_ip_and_mask', methods=['GET'])
 def get_wifi_ip_and_mask_route():
     try:
-        wifi_connection_name = get_env_variable(WIRELESS_CONNECTION)
-        data = get_ip_and_mask(wifi_connection_name)
+        data = get_ip_and_mask()
         return jsonify(data), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

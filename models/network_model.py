@@ -1,14 +1,12 @@
 import subprocess
 
 from config.constants import NMCLI_GET_IP4_ADDRESS
+from models.wifi_model import get_active_wifi_connection
 
 
-def get_ip_and_mask(connection) -> dict:
+def get_ip_and_mask() -> dict:
     """
     Retrieves the IP address and subnet mask for the specified network interface.
-
-    Args:
-        connection (str): The name of the network connection (e.g., 'WLAN', 'ETH').
 
     Returns:
         dict: A dictionary containing the IP address and subnet mask with the key 'ip'.
@@ -17,6 +15,8 @@ def get_ip_and_mask(connection) -> dict:
         RuntimeError: If the command to fetch network details fails.
         ValueError: If the IP address and mask cannot be found.
     """
+
+    connection = get_active_wifi_connection()["SSID"]
 
     command = NMCLI_GET_IP4_ADDRESS.format(connection)
 
