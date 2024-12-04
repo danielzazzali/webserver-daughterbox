@@ -1,6 +1,7 @@
 import os
+import threading
 
-from config.constants import DEVICE_MODE_FILE_PATH, REBOOT_SYSTEM
+from config.constants import DEVICE_MODE_FILE_PATH, REBOOT_SYSTEM, SHUTDOWN_SYSTEM
 
 
 def get_device_mode() -> str:
@@ -15,7 +16,7 @@ def get_device_mode() -> str:
         ValueError: If the mode is not 'AP' or 'STA'.
         FileNotFoundError: If the mode file does not exist.
     """
-    mode_file_path = os.getenv(DEVICE_MODE_FILE_PATH)
+    mode_file_path = DEVICE_MODE_FILE_PATH
     if not mode_file_path:
         raise EnvironmentError(f"{DEVICE_MODE_FILE_PATH} environment variable is not set")
 
@@ -47,7 +48,7 @@ def set_device_mode(new_mode: str):
     if new_mode not in ['AP', 'STA']:
         raise ValueError("Mode must be either 'AP' or 'STA'")
 
-    mode_file_path = os.getenv(DEVICE_MODE_FILE_PATH)
+    mode_file_path = DEVICE_MODE_FILE_PATH
     if not mode_file_path:
         raise EnvironmentError(f"{DEVICE_MODE_FILE_PATH} environment variable is not set")
 
@@ -65,3 +66,17 @@ def reboot_system():
     Reboots the system.
     """
     os.system(REBOOT_SYSTEM)
+
+
+def shutdown_system():
+    """
+    Shuts down the system.
+    """
+    os.system(SHUTDOWN_SYSTEM)
+
+
+def delayed_reboot():
+    threading.Timer(3, reboot_system).start()
+
+def delayed_shutdown():
+    threading.Timer(3, shutdown_system).start()

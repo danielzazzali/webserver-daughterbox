@@ -1,15 +1,16 @@
-PORT = 'PORT'
+PORT = '8000'
 
-ETHERNET_CONNECTION = 'ETHERNET_CONNECTION'
+ETHERNET_CONNECTION = 'ETH'
 
-DEVICE_MODE_FILE_PATH = 'DEVICE_MODE_FILE_PATH'
+DEVICE_MODE_FILE_PATH = '/home/capstone/mode'
 
 REBOOT_SYSTEM = "sudo reboot"
+SHUTDOWN_SYSTEM = "sudo shutdown -h now"
 
-NMCLI_GET_IP4_ADDRESS = "nmcli -f IP4.ADDRESS connection show '{}'"
+NMCLI_GET_IP4_ADDRESS = "nmcli -t -f IP4.ADDRESS connection show '{}'"
 NMCLI_SET_IP4_ADDRESS = "nmcli connection modify '{}' ipv4.addresses '{}' ipv4.method manual"
-NMCLI_GET_WIFI_CONNECTIONS = "nmcli -f NAME,AUTOCONNECT,TYPE connection show | grep 'wifi'"
-NMCLI_SCAN_WIFI_NETWORKS = "nmcli -f SSID,SIGNAL,ACTIVE device wifi"
+NMCLI_GET_WIFI_CONNECTIONS = "nmcli -t -f NAME,AUTOCONNECT,TYPE connection show | grep '802-11-wireless'"
+NMCLI_SCAN_WIFI_NETWORKS = "nmcli -t -f SSID,SIGNAL,ACTIVE device wifi"
 NMCLI_GET_ACTIVE_WIFI_CONNECTION = "nmcli -t -f SSID,SIGNAL,ACTIVE device wifi | grep 'yes'"
 NMCLI_CONNECT_TO_NEW_AP = "nmcli dev wifi connect '{}' password '{}' connection.autoconnect yes"
 NMCLI_DISCONNECT_FROM_WIFI_CONNECTION = "nmcli connection down '{}'"

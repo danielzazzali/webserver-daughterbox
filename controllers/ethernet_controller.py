@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
 
-from config.config import get_env_variable
 from models.network_model import get_ip_and_mask
 from config.constants import ETHERNET_CONNECTION
 from models.ethernet_model import set_ethernet_ip_and_mask
@@ -11,7 +10,7 @@ ethernet_bp = Blueprint('ethernet', __name__)
 @ethernet_bp.route('/ethernet_ip_and_mask', methods=['GET'])
 def get_ethernet_ip_and_mask_route():
     try:
-        eth_connection_name = get_env_variable(ETHERNET_CONNECTION)
+        eth_connection_name = ETHERNET_CONNECTION
         data = get_ip_and_mask(eth_connection_name)
         return jsonify(data), 200
     except Exception as e:

@@ -1,7 +1,6 @@
 import subprocess
 from typing import Dict
 
-from config.config import get_env_variable
 from config.constants import ETHERNET_CONNECTION, NMCLI_SET_IP4_ADDRESS
 
 
@@ -19,7 +18,7 @@ def set_ethernet_ip_and_mask(ip: str, mask: str) -> Dict[str, str]:
     Raises:
         RuntimeError: If the command to change the IP address fails.
     """
-    connection_name = get_env_variable(ETHERNET_CONNECTION)
+    connection_name = ETHERNET_CONNECTION
 
     ip_with_mask = f"{ip}/{mask}"
 

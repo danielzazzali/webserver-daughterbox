@@ -11,7 +11,8 @@ wifi_bp = Blueprint('wifi', __name__)
 @wifi_bp.route('/wifi_ip_and_mask', methods=['GET'])
 def get_wifi_ip_and_mask_route():
     try:
-        data = get_ip_and_mask()
+        connection = get_active_wifi_connection()['SSID']
+        data = get_ip_and_mask(connection)
         return jsonify(data), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

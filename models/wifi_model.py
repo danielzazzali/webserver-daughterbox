@@ -1,4 +1,3 @@
-import re
 import subprocess
 from typing import List, Dict
 
@@ -26,11 +25,10 @@ def remembered_wifi_connections() -> List[Dict[str, str]]:
 
     wifi_connections: List[Dict[str, str]] = []
     for line in result.stdout.splitlines():
-        # Regex to match the name and autoconnect status
-        match = re.match(r"^(.*?)\s{2,}(yes|no)\s", line)
-        if match:
-            name = match.group(1).strip()
-            autoconnect = match.group(2).strip()
+        parts = line.split(':')
+        if len(parts) >= 2:
+            name = parts[0].strip()
+            autoconnect = parts[1].strip()
             wifi_connections.append({'name': name, 'autoconnect': autoconnect})
 
     return wifi_connections
@@ -53,13 +51,12 @@ def scan_wifi_networks() -> list:
         raise RuntimeError(f"Failed to execute command '{command}'. Error: {result.stderr}")
 
     wifi_networks = []
-    lines = result.stdout.splitlines()
-    for line in lines[1:]:  # Skip the header line
-        parts = line.split()
+    for line in result.stdout.splitlines():
+        parts = line.split(':')
         if len(parts) >= 3:
-            ssid = parts[0]
-            signal = parts[1]
-            active = parts[2]
+            ssid = parts[0].strip()
+            signal = parts[1].strip()
+            active = parts[2].strip()
             wifi_networks.append({'SSID': ssid, 'SIGNAL': signal, 'ACTIVE': active})
 
     return wifi_networks
