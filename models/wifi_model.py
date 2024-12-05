@@ -4,7 +4,7 @@ from typing import List, Dict
 from config.constants import NMCLI_GET_WIFI_CONNECTIONS, NMCLI_SCAN_WIFI_NETWORKS, NMCLI_GET_ACTIVE_WIFI_CONNECTION, \
     NMCLI_CONNECT_TO_NEW_AP, NMCLI_DISCONNECT_FROM_WIFI_CONNECTION, NMCLI_CONNECT_TO_KNOWN_WIFI_CONNECTION, \
     NMCLI_DELETE_KNOWN_WIFI_CONNECTION, NMCLI_SET_AUTOCONNECT_ON_TO_WIFI_CONNECTION, \
-    NMCLI_SET_AUTOCONNECT_OFF_TO_WIFI_CONNECTION
+    NMCLI_SET_AUTOCONNECT_OFF_TO_WIFI_CONNECTION, MAC_PREFIX_FOR_RASPBERRY
 
 
 def remembered_wifi_connections() -> List[Dict[str, str]]:
@@ -53,11 +53,21 @@ def scan_wifi_networks() -> list:
     wifi_networks = []
     for line in result.stdout.splitlines():
         parts = line.split(':')
-        if len(parts) >= 3:
+        if len(parts) >= 4:
             ssid = parts[0].strip()
             signal = parts[1].strip()
             active = parts[2].strip()
-            wifi_networks.append({'SSID': ssid, 'SIGNAL': signal, 'ACTIVE': active})
+            bssid_1 = parts[3].strip()
+            bssid_2 = parts[4].strip()
+            bssid_3 = parts[5].strip()
+            bssid_4 = parts[6].strip()
+            bssid_5 = parts[7].strip()
+            bssid_6 = parts[8].strip()
+
+            bssid = f"{bssid_1}:{bssid_2}:{bssid_3}:{bssid_4}:{bssid_5}:{bssid_6}".replace("\:", ":")
+
+            if bssid.startswith(MAC_PREFIX_FOR_RASPBERRY):
+                wifi_networks.append({'SSID': ssid, 'SIGNAL': signal, 'ACTIVE': active})
 
     return wifi_networks
 
