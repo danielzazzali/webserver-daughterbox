@@ -1,5 +1,5 @@
 async function changeContentToCameras() {
-    const data = await getEthernetIpAndMask();
+    const data = await getWifiIpAndMask();
 
     const contentPanel = document.getElementById('content-panel');
     contentPanel.innerHTML = '';
