@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daughterbox</title>
+
+    <link rel="stylesheet" href="../static/css/styles.css">
+
+    <script src="../static/js/endpoints.js" defer></script>
+    <script src="../static/js/main.js" defer></script>
+    <script src="../static/js/domEvents.js" defer></script>
+    <script src="../static/js/modals.js" defer></script>
+    <script src="../static/js/wifi.js" defer></script>
+    <script src="../static/js/camera.js" defer></script>
+
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../static/images/logo-chilipepperlabs.png" alt="ChilipepperLABS Logo" class="logo">
+            <div class="header-buttons">
+                <button onclick="rebootAsync()">Reboot</button>
+                <button onclick="shutdownAsync()">Shutdown</button>
+            </div>
+        </div>
+        <div class="main">
+            <div class="sidebar">
+                <button id="camera-tab">Camera</button>
+                <button id="wifi-tab">Wi-Fi</button>
+            </div>
+            <div class="content" id="content-panel">
+                <div class="loading-text">
+                    ChilipepperLABS
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

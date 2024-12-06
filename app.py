@@ -1,5 +1,4 @@
-from flask import Flask
-
+from flask import Flask, render_template
 
 from config.constants import PORT
 from controllers.device_mode_controller import mode_bp
@@ -15,7 +14,7 @@ app.register_blueprint(wifi_bp)
 
 @app.route('/')
 def index():
-    return "Hello World"
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(port=port)
