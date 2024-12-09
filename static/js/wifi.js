@@ -48,10 +48,10 @@ async function changeContentToWifi() {
 
     if (rememberedWifiConnections.length > 0) {
         const rememberedWifiPanel = document.createElement('div');
-        rememberedWifiPanel.classList.add('remembered-wifi-panel');
+        rememberedWifiPanel.classList.add('known-wifi-panel');
 
         const rememberedWifiTitle = document.createElement('h3');
-        rememberedWifiTitle.textContent = 'Remembered Wi-Fi Networks';
+        rememberedWifiTitle.textContent = 'Known Wi-Fi Networks';
         rememberedWifiPanel.appendChild(rememberedWifiTitle);
 
         rememberedWifiConnections.forEach(connection => {
