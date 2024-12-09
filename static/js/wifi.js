@@ -1,18 +1,48 @@
+async function fetchWifiDataConcurrently() {
+    const [rememberedWifiConnections, activeWifiConnection, availableWifiNetworks] = await Promise.all([
+        getRememberedWifiConnections(),
+        getActiveWifiConnection(),
+        scanWifiNetworks()
+    ]);
 
-// TODO
+    return {
+        rememberedWifiConnections: rememberedWifiConnections.connections,
+        activeWifiConnection: activeWifiConnection.network,
+        availableWifiNetworks: availableWifiNetworks.networks
+    };
+}
+
 async function changeContentToWifi() {
-    const data = null;
+    const { rememberedWifiConnections, activeWifiConnection, availableWifiNetworks } = await fetchWifiDataConcurrently();
 
     const contentPanel = document.getElementById('content-panel');
     contentPanel.innerHTML = '';
 
-    const wifiSettingsContainer = document.createElement('div');
-    wifiSettingsContainer.classList.add('wifi-settings-container');
+    const container = document.createElement('div');
+    container.classList.add('wifi-settings-container');
+    contentPanel.appendChild(container);
 
     const title = document.createElement('h2');
     title.textContent = 'Wi-Fi Settings';
-    wifiSettingsContainer.appendChild(title);
+    container.appendChild(title);
 
-    contentPanel.appendChild(wifiSettingsContainer);
+    if (activeWifiConnection.ACTIVE === 'yes') {
+        const activeWifiPanel = document.createElement('div');
+        activeWifiPanel.classList.add('connected-wifi-panel');
+
+        const activeWifiTitle = document.createElement('h3');
+        activeWifiTitle.textContent = 'Connected Wi-Fi';
+        activeWifiPanel.appendChild(activeWifiTitle);
+
+        const ssidInfo = document.createElement('p');
+        ssidInfo.textContent = `SSID: ${activeWifiConnection.SSID}`;
+        activeWifiPanel.appendChild(ssidInfo);
+
+        const signalInfo = document.createElement('p');
+        signalInfo.textContent = `Signal: ${activeWifiConnection.SIGNAL}%`;
+        activeWifiPanel.appendChild(signalInfo);
+
+        container.appendChild(activeWifiPanel);
+    }
 
 }
