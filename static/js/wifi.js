@@ -74,6 +74,16 @@ async function changeContentToWifi() {
             toggleButton.onclick = () => toggleAutoconnect(connection.name, connection.autoconnect);
             connectionItem.appendChild(toggleButton);
 
+            const forgetButton = document.createElement('button');
+            forgetButton.classList.add('forget-button');
+            forgetButton.textContent = 'Forget';
+            forgetButton.onclick = async () => {
+                await showLoading();
+                await deleteKnownWifiConnection(connection.name);
+                await changeContentToWifi();
+            };
+            connectionItem.appendChild(forgetButton);
+
             rememberedWifiPanel.appendChild(connectionItem);
         });
 
@@ -101,6 +111,8 @@ async function changeContentToWifi() {
         signal.textContent = `Signal: ${network.SIGNAL}%`;
         networkItem.appendChild(signal);
 
+        const isKnownNetwork = Array.isArray(rememberedWifiConnections) && rememberedWifiConnections.some(connection => connection.name === network.SSID);
+
         if (network.ACTIVE === 'yes') {
             const disconnectButton = document.createElement('button');
             disconnectButton.classList.add('disconnect-button');
@@ -108,19 +120,19 @@ async function changeContentToWifi() {
             disconnectButton.onclick = async () => {
                 await showLoading();
                 await disconnectFromWifiConnection(network.SSID);
-                await changeContentToWifi()
-            }
+                await changeContentToWifi();
+            };
             networkItem.appendChild(disconnectButton);
-
-            const forgetButton = document.createElement('button');
-            forgetButton.classList.add('forget-button');
-            forgetButton.textContent = 'Forget';
-            forgetButton.onclick = async () => {
+        } else if (isKnownNetwork) {
+            const connectButton = document.createElement('button');
+            connectButton.classList.add('connect-button');
+            connectButton.textContent = 'Connect';
+            connectButton.onclick = async () => {
                 await showLoading();
-                await deleteKnownWifiConnection(network.SSID);
-                await changeContentToWifi()
-            }
-            networkItem.appendChild(forgetButton);
+                await connectToKnownWifiConnection(network.SSID);
+                await changeContentToWifi();
+            };
+            networkItem.appendChild(connectButton);
         } else {
             const connectButton = document.createElement('button');
             connectButton.classList.add('connect-button');
@@ -142,8 +154,8 @@ async function changeContentToWifi() {
             confirmButton.onclick = async () => {
                 await showLoading();
                 await connectToNewAp(network.SSID, passwordInput.value);
-                await changeContentToWifi()
-            }
+                await changeContentToWifi();
+            };
             networkItem.appendChild(confirmButton);
         }
 
