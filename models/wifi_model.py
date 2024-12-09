@@ -1,5 +1,5 @@
 import subprocess
-from typing import List, Dict
+from typing import List, Dict, Any
 
 from config.constants import NMCLI_GET_WIFI_CONNECTIONS, NMCLI_SCAN_WIFI_NETWORKS, NMCLI_GET_ACTIVE_WIFI_CONNECTION, \
     NMCLI_CONNECT_TO_NEW_AP, NMCLI_DISCONNECT_FROM_WIFI_CONNECTION, NMCLI_CONNECT_TO_KNOWN_WIFI_CONNECTION, \
@@ -7,7 +7,7 @@ from config.constants import NMCLI_GET_WIFI_CONNECTIONS, NMCLI_SCAN_WIFI_NETWORK
     NMCLI_SET_AUTOCONNECT_OFF_TO_WIFI_CONNECTION, MAC_PREFIX_FOR_RASPBERRY
 
 
-def remembered_wifi_connections() -> List[Dict[str, str]]:
+def remembered_wifi_connections() -> dict[Any, Any] | list[dict[str, str]]:
     """
     Retrieves the names and autoconnect status of Wi-Fi connections.
 
@@ -19,6 +19,9 @@ def remembered_wifi_connections() -> List[Dict[str, str]]:
     """
     command = NMCLI_GET_WIFI_CONNECTIONS
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
+
+    if result.returncode != 0 and not result.stdout:
+        return {}
 
     if result.returncode != 0:
         raise RuntimeError(f"Failed to execute command '{command}'. Error: {result.stderr}")
