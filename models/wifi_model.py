@@ -85,6 +85,9 @@ def get_active_wifi_connection() -> dict:
     command = NMCLI_GET_ACTIVE_WIFI_CONNECTION
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
+    if result.returncode != 0 and not result.stdout:
+        return {}
+
     if result.returncode != 0:
         raise RuntimeError(f"Failed to execute command '{command}'. Error: {result.stderr}")
 
