@@ -16,5 +16,9 @@ app.register_blueprint(wifi_bp)
 def index():
     return render_template('index.html')
 
+@app.route('/no_camera/')
+def no_camera():
+    return render_template('no_camera.html')
+
 if __name__ == '__main__':
     app.run(port=port)
